@@ -1,0 +1,43 @@
+######
+# Install consul on ubuntu
+# Adapted from Hashicorp's official documentation: 
+#   https://learn.hashicorp.com/tutorials/consul/get-started-install?in=consul/getting-started
+######
+
+- name: Install and configure
+  hosts: service:&ubuntu
+  remote_user: root
+
+  tasks:
+
+  - name: Add HashiCorp’s official GPG key
+    apt_key:
+      url: https://apt.releases.hashicorp.com/gpg
+      state: present
+    become: yes
+
+  - name: Add HashiCorp's Repository
+    apt_repository:
+    # Small magic trick here, using ansible fact's to get ubuntu's version "nickname"
+      repo: deb https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main
+      state: present
+    become: yes
+
+  - name: Update and install consul
+    apt:
+      name:
+        - consul
+      state: latest
+      update_cache: yes
+    become: yes
+
+- name: Use 'argv' to send a command as a list - leave 'command' empty
+  ansible.builtin.command:
+    argv:
+      - consul agent 
+      - -server
+      - -bootstrap-expect=1
+      - -node=agent-one
+      - -bind={{ gcp_consul_master_ip }}
+      - -data-dir=/tmp/consul
+      - -config-dir=/etc/consul.d
