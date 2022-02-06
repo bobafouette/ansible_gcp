@@ -31,13 +31,13 @@
       update_cache: yes
     become: yes
 
-- name: Use 'argv' to send a command as a list - leave 'command' empty
-  ansible.builtin.command:
-    argv:
-      - consul agent 
-      - -server
-      - -bootstrap-expect=1
-      - -node=agent-one
-      - -bind={{ gcp_consul_master_ip }}
-      - -data-dir=/tmp/consul
-      - -config-dir=/etc/consul.d
+  - name: Start consul as server
+    ansible.builtin.command:
+      argv:
+        - consul agent
+        - -server
+        - -bootstrap-expect=1
+        - -node=agent-one
+        - -bind={{ gcp_consul_master_ip }}
+        - -data-dir=/tmp/consul
+        - -config-dir=/etc/consul.d
