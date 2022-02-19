@@ -5,7 +5,7 @@
 ######
 
 - name: Install and configure
-  hosts: service:&ubuntu
+  hosts: consul-slave
   remote_user: root
 
   tasks:
@@ -37,7 +37,5 @@
         - consul agent
         - -server
         - -bootstrap-expect=1
-        - -node=agent-one
-        - -bind={{ gcp_consul_master_ip }}
         - -data-dir=/tmp/consul
         - -config-dir=/etc/consul.d
