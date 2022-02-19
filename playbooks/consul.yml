@@ -32,10 +32,14 @@
     become: yes
 
   - name: Start consul as server
+    when: inventory_hostname in groups['coos']
     ansible.builtin.command:
       argv:
+        - docker run
+        - -d
+        - -p 8500:8500
+        - -p 8600:8600/udp
         - consul agent
         - -server
+        - -ui
         - -bootstrap-expect=1
-        - -data-dir=/tmp/consul
-        - -config-dir=/etc/consul.d
