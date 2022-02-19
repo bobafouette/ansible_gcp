@@ -37,11 +37,18 @@
   - name: Start consul as server
     when: inventory_hostname in groups['coos']
     docker_container:
-      name: mydata
-      image: busybox
-      volumes:
-        - /data
+      name: consul-agent
+      image: consul
+      # volumes:
+      #   - /data
       ports:
         - 8500:8500
         - 8600:8600/udp
-      command: consul agent -server -ui -bootstrap-expect=1
+      command: agent -bootstrap-expect=1 -enable-script-checks=true  -data-dir=/tmp/consul -config-dir=/etc/consul.d
+
+    - name: Execute consul join
+      community.docker.docker_container_exec:
+        container: consul-agent
+        command: consul join {{ ansible_default_ipv4.address}}
+        chdir: /root
+      register: result
