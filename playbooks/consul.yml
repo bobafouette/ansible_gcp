@@ -11,12 +11,14 @@
   tasks:
 
   - name: Add HashiCorp’s official GPG key
+    when: inventory_hostname not in groups['coos']
     apt_key:
       url: https://apt.releases.hashicorp.com/gpg
       state: present
     become: yes
 
   - name: Add HashiCorp's Repository
+    when: inventory_hostname not in groups['coos']
     apt_repository:
     # Small magic trick here, using ansible fact's to get ubuntu's version "nickname"
       repo: deb https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main
@@ -24,6 +26,7 @@
     become: yes
 
   - name: Update and install consul
+    when: inventory_hostname not in groups['coos']
     apt:
       name:
         - consul
