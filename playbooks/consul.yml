@@ -36,5 +36,12 @@
 
   - name: Start consul as server
     when: inventory_hostname in groups['coos']
-    ansible.builtin.command:
-      cmd: docker run -d -p 8500:8500 -p 8600:8600/udp consul agent -server -ui -bootstrap-expect=1
+    docker_container:
+      name: mydata
+      image: busybox
+      volumes:
+        - /data
+      ports:
+        - 8500:8500
+        - 8600:8600/udp
+      command: consul agent -server -ui -bootstrap-expect=1
