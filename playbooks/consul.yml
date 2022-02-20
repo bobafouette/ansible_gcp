@@ -53,9 +53,9 @@
       command: agent -bootstrap-expect=1 -enable-script-checks=true  -data-dir=/tmp/consul -config-dir=/etc/consul.d
 
   - name: Execute consul join
-      when: inventory_hostname in groups['coos']
-      remote_user: dev
-      community.docker.docker_container_exec:
-        container: consul-agent
-        command: consul join {{ ansible_default_ipv4.address}}
-        chdir: /root
+    when: inventory_hostname in groups['coos']
+    remote_user: dev
+    community.docker.docker_container_exec:
+      container: consul-agent
+      command: consul join {{ ansible_default_ipv4.address}}
+      chdir: /root
