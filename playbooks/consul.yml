@@ -7,7 +7,7 @@
 - name: Install and configure
   hosts: consul-slave
   remote_user: root
-
+  gather_facts: yes
   tasks:
 
   - name: Add HashiCorp’s official GPG key
@@ -49,13 +49,12 @@
       ports:
         - 8500:8500
         - 8600:8600/udp
-      command: agent -bootstrap-expect=1 -enable-script-checks=true  -data-dir=/tmp/consul
+      command: agent -node $HOSTNAME -bootstrap-expect=1 -enable-script-checks=true  -data-dir=/tmp/consul
 
   - name: Execute consul join
     when: inventory_hostname in groups['coos']
     become: yes
     remote_user: dev
     community.docker.docker_container_exec:
-      container: consul-agent
-      command: consul join {{ ansible_default_ipv4.address}}
-      chdir: /root
+      container: consul-agent 
+      command: consul join control-command
