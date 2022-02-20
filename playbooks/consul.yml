@@ -34,8 +34,14 @@
       update_cache: yes
     become: yes
 
+  - name: Change ssh port to 2222
+    when: inventory_hostname in groups['coos']
+    set_fact:
+      ansible_port: 2222
+
   - name: Start consul as server
     when: inventory_hostname in groups['coos']
+    remote_user: dev
     docker_container:
       name: consul-agent
       image: consul
@@ -46,9 +52,10 @@
         - 8600:8600/udp
       command: agent -bootstrap-expect=1 -enable-script-checks=true  -data-dir=/tmp/consul -config-dir=/etc/consul.d
 
-    - name: Execute consul join
+  - name: Execute consul join
+      when: inventory_hostname in groups['coos']
+      remote_user: dev
       community.docker.docker_container_exec:
         container: consul-agent
         command: consul join {{ ansible_default_ipv4.address}}
         chdir: /root
-      register: result
