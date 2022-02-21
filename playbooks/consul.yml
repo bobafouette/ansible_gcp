@@ -53,10 +53,8 @@
     docker_container:
       name: consul-agent
       image: consul
-      ports:
-        - 8500:8500
-        - 8600:8600/udp
-      command: agent -node {{ ansible_facts["hostname"] }} -enable-script-checks=true  -data-dir=/tmp/consul
+      network_mode: host
+      command: agent -node {{ ansible_facts["hostname"] }} -enable-script-checks=true  -data-dir=/tmp/consul -bind {{ ansible_default_ipv4.address }}
 
   - name: Execute consul join
     when: inventory_hostname in groups['coos']
