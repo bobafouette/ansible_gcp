@@ -49,7 +49,7 @@
       ports:
         - 8500:8500
         - 8600:8600/udp
-      command: agent -node $HOSTNAME -enable-script-checks=true  -data-dir=/tmp/consul
+      command: agent -node {{ ansible_env.HOME }} -enable-script-checks=true  -data-dir=/tmp/consul
 
   - name: Execute consul join
     when: inventory_hostname in groups['coos']
