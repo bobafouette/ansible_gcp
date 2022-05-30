@@ -10,3 +10,32 @@
       dest: /opt/notion_auto
       single_branch: yes
       version: master
+
+ - name: Example clone of a single branch
+    ansible.builtin.git:
+      repo: https://github.com/bobafouette/notion_auto.git
+      dest: /opt/notion_auto
+
+  - name: Install venv module for python3
+    apt:
+      name:
+        - python3.8-venv
+      state: latest
+      update_cache: yes
+    become: yes
+
+  - name: Install bottle into the specified (virtualenv), using Python 2.7
+    pip:
+      virtualenv: /opt/notion_auto/venv
+      requirements: /opt/notion_auto/requirements.txt
+      virtualenv_command: python3 -m venv
+
+  - name: Creates a notion cron file
+      ansible.builtin.cron:
+        name: run notion 
+        weekday: "*"
+        minute: "*"
+        hour: "*"
+        user: root
+        job: "source /opt/notion_auto/venv/bin/activate; python /opt/notion_auto/tracker.py; deactivate"
+        cron_file: notion-auto
