@@ -7,6 +7,6 @@ The idea is to use terraform to dynamically generate a inventory file. It will g
 This repo is then used to configure the instances listed in the inventory file. The associated terraform repository can be found [here](https://github.com/bobafouette/terraform_homelab)
 
 ## Todo:
-- Remove non useful playbooks and ressources
-- Install docker on every ubuntu instance (required by nomad)
-- Remove Nomad and Consul bootstrap of masters from those [startup script](https://github.com/bobafouette/terraform_homelab/tree/main/config/startup-scripts) and do it here, via ansible
+- Find an elegant solution to upload notion's API_KEY into the cron-machine
+- Install docker on every ubuntu instance (required by nomad) [ON HOLD]
+- Remove Nomad and Consul bootstrap of masters from those [startup script](https://github.com/bobafouette/terraform_homelab/tree/main/config/startup-scripts) and do it here, via ansible [ON HOLD]
