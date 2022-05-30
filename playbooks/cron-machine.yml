@@ -1,0 +1,12 @@
+- name: Install and configure a cron-machine
+  hosts: cron-machine
+  remote_user: root
+  gather_facts: yes
+  tasks:
+
+  - name: Example clone of a single branch
+    ansible.builtin.git:
+      repo: https://github.com/bobafouette/notion_auto.git
+      dest: /opt/notion_auto
+      single_branch: yes
+      version: master
