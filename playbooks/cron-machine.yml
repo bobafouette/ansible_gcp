@@ -8,10 +8,8 @@
     ansible.builtin.git:
       repo: https://github.com/bobafouette/notion_auto.git
       dest: /opt/notion_auto
-      single_branch: yes
-      version: master
 
- - name: Example clone of a single branch
+  - name: Example clone of a single branch
     ansible.builtin.git:
       repo: https://github.com/bobafouette/notion_auto.git
       dest: /opt/notion_auto
@@ -31,11 +29,11 @@
       virtualenv_command: python3 -m venv
 
   - name: Creates a notion cron file
-      ansible.builtin.cron:
-        name: run notion 
-        weekday: "*"
-        minute: "*"
-        hour: "*"
-        user: root
-        job: "source /opt/notion_auto/venv/bin/activate; python /opt/notion_auto/tracker.py; deactivate"
-        cron_file: notion-auto
+    ansible.builtin.cron:
+      name: run notion
+      weekday: "*"
+      minute: "*"
+      hour: "*"
+      user: root
+      job: "source /opt/notion_auto/venv/bin/activate; python /opt/notion_auto/tracker.py; deactivate"
+      cron_file: notion-auto
