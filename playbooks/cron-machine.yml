@@ -35,5 +35,5 @@
       minute: "*"
       hour: "*"
       user: root
-      job: "source /opt/notion_auto/venv/bin/activate; python /opt/notion_auto/tracker.py; deactivate"
+      job: "cd /opt/notion_auto/; git pull; source /opt/notion_auto/venv/bin/activate; python /opt/notion_auto/tracker.py; deactivate"
       cron_file: notion-auto
