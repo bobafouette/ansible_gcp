@@ -37,3 +37,8 @@
       user: root
       job: "cd /opt/notion_auto/; git pull; source /opt/notion_auto/venv/bin/activate; python /opt/notion_auto/tracker.py; deactivate"
       cron_file: notion-auto
+
+  - name: Copy notion apy key
+    ansible.builtin.copy:
+      src: /root/notion_api.key
+      dest: /opt/notion_auto/.notion_api_key
