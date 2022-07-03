@@ -7,6 +7,7 @@
   docker_container:
     name: bitwarden
     image: bitwardenrs/server:latest
+    restart_policy: unless-stopped
     labels:
       traefik.enable: "true"
       traefik.http.routers.bitwarden.rule: Host(`bitwarden.lab.blocker.rocks`)

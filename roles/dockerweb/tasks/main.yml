@@ -6,15 +6,21 @@
   docker_network:
     name: webnet
 
+- name: Create config folder
+  file:
+    path: /host/var/traefik
+    state: directory
+
 - name: Copy traefik config
   ansible.builtin.copy:
-    src: ressources/traefik.yml
+    src: traefik.yml
     dest: /host/var/traefik/traefik.yml
 
 - name: Start traefik as server
   docker_container:
     name: proxy
     image: traefik
+    restart_policy: unless-stopped
     networks:
     - name: webnet
     volumes:
