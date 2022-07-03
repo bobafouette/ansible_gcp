@@ -14,6 +14,8 @@
       ansible_port: 2222
 
   - name: Create web network
+    remote_user: dev
+    become: yes
     docker_network:
       name: webnet
 
