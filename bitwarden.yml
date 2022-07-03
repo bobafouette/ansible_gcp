@@ -1,5 +1,13 @@
 - hosts: bitwarden
-  roles: <- this is list of roles to assign to these hosts
-    - coos
-    - dockerweb
-    - bitwarden
+  roles:
+    - role: coos
+      remote_user: root
+      gather_facts: yes
+    - role: dockerweb
+      remote_user: dev
+      become: yes
+      gather_facts: yes
+    - role: bitwarden
+      remote_user: dev
+      become: yes
+      gather_facts: yes

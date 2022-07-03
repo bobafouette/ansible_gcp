@@ -2,27 +2,20 @@
 # Install bitwarden in coos
 ######
 
-- name: Install and configure bitwarden
-  hosts: bitwarden
-  remote_user: dev
-  become: yes
-  gather_facts: yes
-  tasks:
-
-  - name: Start bitwarden as server
-    when: inventory_hostname in groups['coos']
-    docker_container:
-      name: bitwarden
-      image: bitwardenrs/server:latest
-      labels:
-        traefik.enable: "true"
-        traefik.http.routers.bitwarden.rule: Host(`bitwarden.lab.blocker.rocks`)
-        traefik.http.services.bitwarden.loadbalancer.server.port: "80"
-        traefik.http.routers.bitwarden.entrypoints: websecure
-        traefik.docker.network: webnet
-        traefik.http.routers.bitwarden.tls: "true"
-        traefik.http.routers.bitwarden.tls.certresolver: letsencrypt
-      networks:
-      - name: webnet
-      volumes:
-        - /var/docker-peristant-sto/bitwarden/data/:/data
+- name: Start bitwarden as server
+  when: inventory_hostname in groups['coos']
+  docker_container:
+    name: bitwarden
+    image: bitwardenrs/server:latest
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.bitwarden.rule: Host(`bitwarden.lab.blocker.rocks`)
+      traefik.http.services.bitwarden.loadbalancer.server.port: "80"
+      traefik.http.routers.bitwarden.entrypoints: websecure
+      traefik.docker.network: webnet
+      traefik.http.routers.bitwarden.tls: "true"
+      traefik.http.routers.bitwarden.tls.certresolver: letsencrypt
+    networks:
+    - name: webnet
+    volumes:
+      - /var/docker-peristant-sto/bitwarden/data/:/data
