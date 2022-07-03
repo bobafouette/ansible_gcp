@@ -20,6 +20,7 @@
       name: webnet
 
   - name: Copy traefik config
+    remote_user: dev
     ansible.builtin.copy:
       src: ressources/traefik.yml
       dest: /var/traefik/traefik.yml
