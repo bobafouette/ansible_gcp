@@ -52,12 +52,12 @@
       labels:
         traefik.enable: "true"
         traefik.http.routers.bitwarden.rule: Host(`bitwarden.lab.blocker.rocks`)
-        traefik.http.services.bitwarden.loadbalancer.server.port: 443
+        traefik.http.services.bitwarden.loadbalancer.server.port: "80"
+        traefik.http.routers.bitwarden.entrypoints: websecure
         traefik.docker.network: webnet
+        traefik.http.routers.bitwarden.tls: "true"
+        traefik.http.routers.bitwarden.tls.certresolver: letsencrypt
       networks:
       - name: webnet
       volumes:
         - /var/docker-peristant-sto/bitwarden/data/:/data
-      published_ports:
-        - 80:80
-        - 443:443

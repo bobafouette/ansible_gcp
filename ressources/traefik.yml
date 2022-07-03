@@ -6,3 +6,11 @@ entryPoints:
     address: ":80"
   websecure:
     address: ":443"
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: loup.kreidl@gmail.com
+      storage: acme.json
+      httpChallenge:
+        entryPoint: web
