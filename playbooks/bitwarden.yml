@@ -21,12 +21,10 @@
 
   - name: Copy traefik config
     remote_user: dev
+    become: yes
     ansible.builtin.copy:
       src: ressources/traefik.yml
-      dest: /var/traefik/traefik.yml
-      owner: foo
-      group: foo
-      mode: '0644'
+      dest: /host/var/traefik/traefik.yml
 
   - name: Start traefik as server
     when: inventory_hostname in groups['coos']
@@ -52,7 +50,7 @@
       name: bitwarden
       image: bitwardenrs/server:latest
       labels:
-        traefik.enable: true
+        traefik.enable: "true"
         traefik.http.routers.bitwarden.rule: Host(`bitwarden.lab.blocker.rocks`)
         traefik.http.services.bitwarden.loadbalancer.server.port: 443
         traefik.docker.network: webnet
