@@ -1,0 +1,5 @@
+- hosts: bitwarden
+  roles: <- this is list of roles to assign to these hosts
+    - coos
+    - dockerweb
+    - bitwarden

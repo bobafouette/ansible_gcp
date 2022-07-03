@@ -1,0 +1,32 @@
+######
+# Install and configure traefik proxy
+######
+
+- name: Install and configure traefik proxy
+  hosts: dockerweb
+  remote_user: dev
+  become: yes
+  gather_facts: yes
+  tasks:
+
+  - name: Create web network
+    docker_network:
+      name: webnet
+
+  - name: Copy traefik config
+    ansible.builtin.copy:
+      src: ressources/traefik.yml
+      dest: /host/var/traefik/traefik.yml
+
+  - name: Start traefik as server
+    docker_container:
+      name: proxy
+      image: traefik
+      networks:
+      - name: webnet
+      volumes:
+        - /var/traefik/:/etc/traefik/
+        - /var/run/docker.sock:/var/run/docker.sock
+      published_ports:
+        - 80:80
+        - 443:443
