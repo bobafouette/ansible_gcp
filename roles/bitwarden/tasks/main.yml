@@ -16,6 +16,9 @@
       traefik.docker.network: webnet
       traefik.http.routers.bitwarden.tls: "true"
       traefik.http.routers.bitwarden.tls.certresolver: letsencrypt
+    env:
+      SIGNUPS_ALLOWED: "false"
+      ADMIN_TOKEN: "{{ lookup('file', '/root/bitwarden_admin_token.key') }}"
     networks:
     - name: webnet
     volumes:
