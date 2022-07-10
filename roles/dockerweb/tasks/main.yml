@@ -8,13 +8,13 @@
 
 - name: Create config folder
   file:
-    path: /host/var/traefik
+    path: /host/var/docker-peristant-sto/traefik
     state: directory
 
 - name: Copy traefik config
   ansible.builtin.copy:
     src: traefik.yml
-    dest: /host/var/traefik/traefik.yml
+    dest: /host/var/docker-peristant-sto/traefik/traefik.yml
 
 - name: Start traefik as server
   docker_container:
@@ -24,7 +24,7 @@
     networks:
     - name: webnet
     volumes:
-      - /var/traefik/:/etc/traefik/
+      - /var/docker-peristant-sto/traefik/:/etc/traefik/
       - /var/run/docker.sock:/var/run/docker.sock
     published_ports:
       - 80:80
