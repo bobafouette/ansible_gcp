@@ -6,7 +6,7 @@
   when: inventory_hostname in groups['coos']
   docker_container:
     name: bitwarden
-    image: bitwardenrs/server:latest
+    image: vaultwarden/server:latest
     restart_policy: unless-stopped
     labels:
       traefik.enable: "true"
