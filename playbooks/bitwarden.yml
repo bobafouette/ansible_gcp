@@ -48,7 +48,7 @@
     become: yes
     docker_container:
       name: bitwarden
-      image: bitwardenrs/server:latest
+      image: vaultwarden/server:latest
       labels:
         traefik.enable: "true"
         traefik.http.routers.bitwarden.rule: Host(`bitwarden.lab.blocker.rocks`)
