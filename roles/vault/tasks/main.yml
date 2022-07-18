@@ -1,0 +1,48 @@
+######
+# Install vault in coos
+######
+
+- name: Create vault folder
+  file:
+    path: /host/var/docker-peristant-sto/vault
+    state: directory
+
+- name: Create vault config folder
+  file:
+    path: /host/var/docker-peristant-sto/vault/config
+    state: directory
+
+- name: Create vault data folder
+  file:
+    path: /host/var/docker-peristant-sto/vault/data
+    state: directory
+
+- name: Copy traefik config
+  ansible.builtin.copy:
+    src: vault_config.hcl
+    dest: /host/var/docker-peristant-sto/vault/config/vault_config.hcl
+
+- name: Start vault as server
+  when: inventory_hostname in groups['coos']
+  docker_container:
+    name: vault
+    image: vault
+    restart_policy: unless-stopped
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.vault.rule: Host(`vault.lab.blocker.rocks`)
+      traefik.http.services.vault.loadbalancer.server.port: "8200"
+      traefik.http.routers.vault.entrypoints: websecure
+      traefik.docker.network: webnet
+      traefik.http.routers.vault.tls: "true"
+      traefik.http.routers.vault.tls.certresolver: letsencrypt
+    env:
+      SIGNUPS_ALLOWED: "false"
+      ADMIN_TOKEN: "{{ lookup('file', '/root/bitwarden_admin_token.key') }}"
+    capabilities:
+      - "IPC_LOCK"
+    networks:
+      - name: webnet
+    volumes:
+      - /var/docker-peristant-sto/vault/data/:/data
+      - /var/docker-peristant-sto/vault/config/:/config
