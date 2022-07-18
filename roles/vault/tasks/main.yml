@@ -2,6 +2,11 @@
 # Install vault in coos
 ######
 
+- name: Change ssh port to 2222
+  when: inventory_hostname in groups['coos'] and ansible_port is not defined
+  set_fact:
+    ansible_port: 2222
+
 - name: Create vault folder
   file:
     path: /host/var/docker-peristant-sto/vault
@@ -46,3 +51,8 @@
     volumes:
       - /var/docker-peristant-sto/vault/data/:/data
       - /var/docker-peristant-sto/vault/config/:/config
+
+- name: Change ssh port to 2222
+  when: inventory_hostname in groups['coos'] and ansible_port is not defined
+  set_fact:
+    ansible_port: 22

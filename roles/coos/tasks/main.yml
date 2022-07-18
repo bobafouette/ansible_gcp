@@ -3,6 +3,6 @@
 ######
 
 - name: Change ssh port to 2222
-  when: inventory_hostname in groups['coos']
+  when: inventory_hostname in groups['coos'] and ansible_port is not defined
   set_fact:
     ansible_port: 2222

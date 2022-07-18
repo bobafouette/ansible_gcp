@@ -1,4 +1,4 @@
-- hosts: bitwarden
+- hosts: vault
   roles:
     - role: coos
       remote_user: root
