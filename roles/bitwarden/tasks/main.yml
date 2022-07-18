@@ -4,6 +4,7 @@
 
 - name: Change ssh port to 2222
   when: inventory_hostname in groups['coos']
+  set_fact:
     ansible_port: 2222
 
 - name: Start bitwarden as server
