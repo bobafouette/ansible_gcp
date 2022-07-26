@@ -1,6 +1,6 @@
-- hosts: bitwarden
+- hosts: coos-web
   roles:
-    - role: bitwarden
+    - role: dockerweb
       remote_user: dev
       become: yes
       gather_facts: yes

@@ -1,0 +1,6 @@
+- hosts: coos
+  roles:
+    - role: coos
+      remote_user: dev
+      become: yes
+      gather_facts: yes

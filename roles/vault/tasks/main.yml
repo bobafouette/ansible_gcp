@@ -23,7 +23,6 @@
     dest: /host/var/docker-peristant-sto/vault/config/vault_config.hcl
 
 - name: Start vault as server
-  when: inventory_hostname in groups['coos']
   docker_container:
     name: vault
     image: vault
