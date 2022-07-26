@@ -1,12 +1,5 @@
 - hosts: vault
   roles:
-    - role: coos
-      remote_user: root
-      gather_facts: yes
-    - role: dockerweb
-      remote_user: dev
-      become: yes
-      gather_facts: yes
     - role: vault
       remote_user: dev
       become: yes

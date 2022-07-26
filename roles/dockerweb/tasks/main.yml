@@ -2,11 +2,6 @@
 # Install and configure traefik proxy
 ######
 
-- name: Change ssh port to 2222
-  when: inventory_hostname in groups['coos']
-  set_fact:
-    ansible_port: 2222
-
 - name: Create web network
   docker_network:
     name: webnet
@@ -34,8 +29,3 @@
     published_ports:
       - 80:80
       - 443:443
-
-- name: Change ssh port to 22
-  when: inventory_hostname in groups['coos']
-  set_fact:
-    ansible_port: 22
