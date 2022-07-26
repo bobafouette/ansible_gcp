@@ -1,0 +1,6 @@
+- hosts: coos-web
+  roles:
+    - role: dockerweb
+      remote_user: dev
+      become: yes
+      gather_facts: yes
