@@ -3,7 +3,6 @@
 ######
 
 - name: Start bitwarden as server
-  when: inventory_hostname in groups['coos']
   docker_container:
     name: bitwarden
     image: vaultwarden/server:latest
