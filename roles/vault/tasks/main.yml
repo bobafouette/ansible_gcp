@@ -12,18 +12,24 @@
     path: /host/var/docker-peristant-sto/vault/config
     state: directory
 
-- name: Ensure group "vault" exists with correct gid
+- name: Ensure group "chronos" exists
+  # Some hacky stuff here: The vault image starts a servers with a vault user.
+  # This user is member of the group vault gid 1000
+  # On COOS a group exists with this gid, and is named chronos.
+  # However ansible does not allow us to check a group gid and name if a group with this gid exists
+  # See: https://github.com/ansible/ansible/issues/29919
+  # So we check chronos group exists and allow modification for this group on the data folder of our vault service
   group:
-    name: vault
+    name: chronos
     state: present
-    gid: 1000
 
 - name: Create vault data folder
   file:
     path: /host/var/docker-peristant-sto/vault/data
     state: directory
     mode: 775
-    group: vault
+    owner: root
+    group: chronos
 
 - name: Copy vault config
   ansible.builtin.copy:

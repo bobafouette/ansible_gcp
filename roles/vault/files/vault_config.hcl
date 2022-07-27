@@ -7,9 +7,4 @@ listener "tcp" {
   tls_disable = "true"
 }
 
-telemetry {
-  statsite_address = "127.0.0.1:8125"
-  disable_hostname = true
-}
-
 ui = true
