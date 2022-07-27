@@ -29,7 +29,7 @@
     state: directory
     mode: 0775
     owner: root
-    group: chronos
+    group: 1000
 
 - name: Copy vault config
   ansible.builtin.copy:
