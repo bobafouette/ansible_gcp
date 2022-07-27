@@ -27,7 +27,7 @@
   file:
     path: /host/var/docker-peristant-sto/vault/data
     state: directory
-    mode: 775
+    mode: 0775
     owner: root
     group: chronos
 
