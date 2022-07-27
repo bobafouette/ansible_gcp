@@ -12,12 +12,20 @@
     path: /host/var/docker-peristant-sto/vault/config
     state: directory
 
+- name: Ensure group "vault" exists with correct gid
+  group:
+    name: vault
+    state: present
+    gid: 1000
+
 - name: Create vault data folder
   file:
     path: /host/var/docker-peristant-sto/vault/data
     state: directory
+    mode: 775
+    group: vault
 
-- name: Copy traefik config
+- name: Copy vault config
   ansible.builtin.copy:
     src: vault_config.hcl
     dest: /host/var/docker-peristant-sto/vault/config/vault_config.hcl
@@ -35,9 +43,7 @@
       traefik.docker.network: webnet
       traefik.http.routers.vault.tls: "true"
       traefik.http.routers.vault.tls.certresolver: letsencrypt
-    env:
-      SIGNUPS_ALLOWED: "false"
-      ADMIN_TOKEN: "{{ lookup('file', '/root/bitwarden_admin_token.key') }}"
+    command: "server -config /config/vault_config.hcl"
     capabilities:
       - "IPC_LOCK"
     networks:
